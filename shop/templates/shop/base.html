@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Интернет-магазин MIS U MIS{% endblock %}</title>
+    {% load static %}
+     <!-- Подключение CSS файла со стилями -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon3.ico' %}">
+</head>
+<body>
+     <!-- Шапка сайта -->
+    <header>
+        <div class="container">
+            <h1>Интерент-магазин MIS U KIS</h1>
+             <!-- Навигационное меню -->
+            <nav class="nav">
+                <!-- Ссылка на главную страницу со списком товаров -->
+                <a href="{% url 'shop:product_list' %}">Главная</a>
+                <a href="#">Каталог товаров</a>
+                <a href="#">О нас</a>
+                <a href="#">Контакты</a>
+            </nav>
+        </div>
+    </header>
+ <!-- Основное содержимое страницы -->
+     <main class="main-content">
+        <div class="container">
+              <!-- Блок для отображения системных сообщений (успех, ошибки и т.д.) -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="message message-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+  <!-- Блок content - основное содержимое, будет заполнено в дочерних шаблонах -->
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+ <!-- Подвал сайта -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Интернет-магазин MIS U KIS. Все права защищены.</p>
+        </div>
+    </footer>
+</body>
+</html>

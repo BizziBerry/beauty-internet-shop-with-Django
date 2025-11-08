@@ -1,0 +1,64 @@
+<!-- Наследование от базового шаблона -->
+{% extends 'shop/base.html' %}
+<!-- Загрузка тегов для работы со статическими файлами -->
+{% load static %}
+
+<!-- Переопределение заголовка страницы -->
+{% block title %}{{ title }}{% endblock %}
+
+<!-- Начало блока основного содержимого -->
+{% block content %}
+<h2>Наши товары</h2>
+
+<!-- Контейнер для сетки товаров -->
+<div class="products-grid">
+    <!-- Цикл для отображения каждого товара из переданного списка -->
+    {% for product in products %}
+    <!-- Карточка товара -->
+    <div class="product-card">
+        <!-- Ссылка на детальную страницу товара -->
+        <a href="{% url 'shop:product_detail' product.id %}" class="product-link">
+            <!-- Проверка наличия изображения у товара -->
+            {% if product.image %}
+            <!-- Контейнер для изображения товара -->
+            <div class="product-image">
+                <!-- Отображение изображения товара -->
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            </div>
+            {% else %}
+            <!-- Блок для случая, когда изображение отсутствует -->
+            <div class="product-image no-image">
+                <span>Нет изображения</span>
+            </div>
+            {% endif %}
+            
+            <!-- Название товара -->
+            <h3 class="product-name">{{ product.name }}</h3>
+            
+            <!-- Цена товара с форматированием (2 знака после запятой) -->
+            <div class="product-price">
+                {{ product.price|floatformat:2 }} ₽
+            </div>
+            
+            <!-- Описание товара, обрезанное до 15 слов -->
+            <p class="product-description">
+                {{ product.description|truncatewords:15 }}
+            </p>
+            
+            <!-- Дата добавления товара в формате день.месяц.год -->
+            <div class="product-date">
+                Добавлен: {{ product.created_at|date:"d.m.Y" }}
+            </div>
+        </a>
+    </div>
+    <!-- Блок для случая, когда товаров нет -->
+    {% empty %}
+    <div class="no-products">
+        <h3>Товары отсутствуют</h3>
+        <p>В нашем магазине пока нет данного товара.</p>
+    </div>
+    <!-- Конец цикла по товарам -->
+    {% endfor %}
+</div>
+<!-- Конец блока content -->
+{% endblock %}
